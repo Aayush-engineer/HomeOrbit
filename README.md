@@ -16,5 +16,11 @@ A full-stack rental apartment application built with **Next.js**, **Node.js**, a
 
 ---
 
+## 📊 Database Schema (ERD)
+
+This ERD shows how Prisma models are related in the backend.
+
+![ERD](backend/docs/prisma-erd.png)
+
 More coming soon...
 
