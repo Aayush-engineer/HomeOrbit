@@ -1,4 +1,5 @@
 import express from "express";
+import { addFavoriteProperty, createTenant, getCurrentResidences, getTenant, removeFavoriteProperty, updateTenant } from "../controllers/tenantControllers";
 
 const router = express.Router();
 
