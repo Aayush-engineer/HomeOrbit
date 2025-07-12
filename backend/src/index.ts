@@ -12,9 +12,6 @@ import propertyRoutes from "./routes/propertyRoutes";
 import leaseRoutes from "./routes/leaseRoutes";
 import applicationRoutes from "./routes/applicationRoutes";
 
-
-
-
 // configurations
 dotenv.config();
 const app = express();
