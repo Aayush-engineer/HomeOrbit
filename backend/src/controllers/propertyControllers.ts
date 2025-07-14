@@ -1,7 +1,11 @@
 import { Request,Response } from "express";
 import { PrismaClient,Prisma } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
+import { File as MulterFile } from "multer";
 
+interface MulterRequest extends Request {
+  files: MulterFile[];
+}
 import { v2 as cloudinary } from 'cloudinary';
 import { Location } from "@prisma/client";
 import axios from "axios";
@@ -194,7 +198,8 @@ export const createProperty = async (
     res: Response
 ): Promise<void> => {
     try {
-        const files = req.files as Express.Multer.File[];
+        const files = (req as MulterRequest).files;
+
         const {
             address,
             city,
