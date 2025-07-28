@@ -1,41 +1,35 @@
 "use client";
 
-import { useEffect } from "react";
-import { useUser, SignIn, SignUp } from "@clerk/nextjs";
-import { usePathname, useRouter } from "next/navigation";
-
-const publicRoutes = ["/signin", "/signup"];
+import React, { useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 const Auth = ({ children }: { children: React.ReactNode }) => {
-  const { isSignedIn, isLoaded } = useUser();
-  const pathname = usePathname();
+  const { user } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
 
-  const isAuthPage = publicRoutes.includes(pathname);
-  const isProtectedPage = !isAuthPage;
+  const isAuthPage = pathname.match(/^\/(signin|signup)$/);
+  const isDashboardPage =
+    pathname.startsWith("/manager") || pathname.startsWith("/tenants");
 
   
   useEffect(() => {
-    if (!isLoaded) return;
-
-   
-    if (isSignedIn && isAuthPage) {
+    if (user && isAuthPage) {
       router.push("/");
     }
+  }, [user, isAuthPage, router]);
 
-    if (!isSignedIn && isProtectedPage) {
-      router.push("/signin");
-    }
-  }, [isSignedIn, isAuthPage, isProtectedPage, isLoaded, router]);
+  // Allow access to public pages without authentication
+  if (!isAuthPage && !isDashboardPage) {
+    return <>{children}</>;
+  }
 
-  
-  if (!isLoaded) return null;
-
-  
-  if (pathname === "/signin") return <SignIn />;
-  if (pathname === "/signup") return <SignUp />;
-
-  return <>{children}</>;
+  return (
+    <div className="h-full">
+      {children}
+    </div>
+  );
 };
 
 export default Auth;
