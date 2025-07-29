@@ -2,12 +2,16 @@
 
 import StoreProvider from "@/state/redux";
 import Auth from "./(auth)/authProvider";
+import ClerkAuthInitializer from "@/components/ClerkAuthInitializer";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <StoreProvider>
-      <Auth>{children}</Auth>
+      <Auth>
+        <ClerkAuthInitializer/>
+        {children}
+      </Auth>
     </StoreProvider>
   );
 };

@@ -2,18 +2,24 @@
 
 import { useRef } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, Reducer, Store } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import globalReducer from "@/state";
+import clerkReducer from "@/state/clerkSlice";
+import { api } from "@/state/api";
 
-const rootReducer = combineReducers({
-    global: globalReducer,
+const rootReducer: Reducer = combineReducers({
+  global: globalReducer,
+  clerk: clerkReducer,
+  [api.reducerPath]: api.reducer,
 });
 
-export const makeStore = () => {
+export const makeStore = (): Store => {
     return configureStore({
-        reducer: rootReducer
+        reducer: rootReducer,
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware().concat(api.middleware),
     })
 };
 
