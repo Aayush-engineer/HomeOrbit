@@ -19,7 +19,7 @@ export default function CustomSignupPage() {
   
 
   const handleSignup = async (e: React.FormEvent) => {
-    console.log("loaded",isLoaded);
+    
 
     e.preventDefault();
     setError('');
@@ -28,7 +28,7 @@ export default function CustomSignupPage() {
     if (!isLoaded) return;
 
     try {
-      console.log("i am here");
+      
       // 1. Create the user
       const signUpResponse = await signUp.create({
         emailAddress: email,
@@ -39,7 +39,7 @@ export default function CustomSignupPage() {
         },
       });
 
-      console.log("passed this step");
+      
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       router.push(`/verify-email?studentId=${signUpResponse.id}&role=${role}`);
       

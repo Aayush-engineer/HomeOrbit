@@ -28,6 +28,8 @@ const clerkSlice = createSlice({
       state,
       action: PayloadAction<{ user: AppUser; token: string; role: string }>
     ) => {
+      console.log("Dispatched Clerk User", action.payload.user);
+      console.log("dispatch clerk role",action.payload.role);
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.role = action.payload.role;

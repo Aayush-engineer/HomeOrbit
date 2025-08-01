@@ -5,6 +5,7 @@ import { useUser, useAuth } from "@clerk/nextjs";
 import { useDispatch } from "react-redux";
 import { setClerkAuth } from "@/state/clerkSlice";
 import { transformUser } from "@/lib/transformUser";
+import { jwtDecode } from "jwt-decode";
 
 const ClerkAuthInitializer = () => {
   const dispatch = useDispatch();
@@ -14,9 +15,8 @@ const ClerkAuthInitializer = () => {
   useEffect(() => {
     const syncClerk = async () => {
       if (isLoaded && user) {
-        const token = await getToken();
+        const token = await getToken({ template: "role-based-access-control" });
         if (!token) return; 
-        console.log("this is my user",user);
         const role = user.unsafeMetadata?.role as string;
         dispatch(setClerkAuth({ user: transformUser(user), token, role }));
       }

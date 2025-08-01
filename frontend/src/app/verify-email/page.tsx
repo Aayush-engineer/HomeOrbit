@@ -22,36 +22,26 @@ export default function VerifyEmailPage() {
   setError("");
 
   try {
-    console.log("i am on the verify page");
-  
-    console.log("my signupid is",signUpId);
-    console.log("the role is",role);
+    
 
     if (!signUpId) {
       setError("Signup session expired. Please sign up again.");
       router.push("/signup");
       return;
     }
-    console.log("i pass first step");
-
-
-    
-    console.log("i pass third step");
 
     const completeSignUp = await signUp.attemptEmailAddressVerification({
       code: code.trim(),
     });
-    console.log("i pass forth step");
+    
     if (completeSignUp.status !== "complete") {
       throw new Error("Email verification incomplete.");
     }
     
-    console.log("i pass 5th step");
+   
     
     await setActive({ session: completeSignUp.createdSessionId });
-    console.log("6th step");
-
-    console.log("7th step");
+    
     router.push("/");
   } catch (err: any) {
     console.error("Verification Error:", err);

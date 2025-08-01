@@ -2,6 +2,8 @@
 
 
 
+import Navbar from "@/components/Navbar";
+import { useGetAuthUserQuery } from "@/state/api";
 import { useAppSelector } from "@/state/redux"; 
 
 export default function Home() {
@@ -11,17 +13,15 @@ export default function Home() {
   
 
   if(user){
-    console.log("this is my user",user);
-    return (
-      <div className="h-screen flex flex-col items-center justify-center">
-      <h1 className="text-2xl font-bold mb-4">Welcome {user.email ?? "Guest"} the role is {role}</h1>
+    return (  
+    <div className="h-full w-full ">
+      <Navbar/>
+      <div> Welcome {user.email ?? "Guest"} the role is {role}</div>
     </div>
     );
   }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
-      <h1 className="text-2xl font-bold mb-4">Welcome</h1>
-    </div>
+    <div className="bg-slate-600 text-red-600 p-4">Tailwind Working?</div>
   );
 }

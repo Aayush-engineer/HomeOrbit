@@ -9,7 +9,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <StoreProvider>
       <Auth>
-        <ClerkAuthInitializer/>
+        <ClerkAuthInitializer/>       
         {children}
       </Auth>
     </StoreProvider>

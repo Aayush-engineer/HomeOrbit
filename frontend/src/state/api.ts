@@ -11,6 +11,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FiltersState } from ".";
 import type { RootState } from './redux';
 import type { AppUser } from "@/lib/transformUser";
+import { jwtDecode } from 'jwt-decode';
+
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -52,17 +54,25 @@ export const api = createApi({
           const token = state.clerk.token;
           const role = state.clerk.role;
           const user = state.clerk.user as AppUser;
+
           
           if (!user || !user.id || !role) {
             return { error: { status: 401, data: "Unauthorized" } };
           }
+          console.log("my user,userid,role",user,user.id,role);
+          
+
+          
 
           const endpoint =
             role === "manager"
               ? `/managers/${user.id}`
               : `/tenants/${user.id}`;
-
+          
           let userDetailsResponse =await fetchWithBQ(endpoint);
+
+          
+          
 
           // if user doesn't exist, create new user
           if (
