@@ -12,6 +12,7 @@ import {
 } from '@clerk/nextjs'
 import "./globals.css";
 import Providers from "./provider";
+import 'leaflet/dist/leaflet.css';
 
 
 
