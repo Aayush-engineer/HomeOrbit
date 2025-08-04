@@ -7,7 +7,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { useGetAuthUserQuery } from "@/state/api";
 import { usePathname, useRouter } from "next/navigation";
-import { useClerk } from "@clerk/nextjs";
+import { SignInButton, useClerk } from "@clerk/nextjs";
 import { Bell, MessageCircle, Plus, Search } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/redux";
@@ -175,14 +175,15 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link href="/signin">
+              <SignInButton mode="modal">
                 <Button
                   variant="outline"
                   className="text-white border-white bg-transparent hover:bg-white hover:text-primary-700 rounded-lg"
                 >
                   Sign In
                 </Button>
-              </Link>
+              </SignInButton>
+
               <Link href="/signup">
                 <Button
                   variant="secondary"
