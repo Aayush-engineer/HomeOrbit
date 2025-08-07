@@ -28,7 +28,8 @@ const HeroSection = () => {
 
       if (data.results && data.results.length > 0) {
         const { lat, lng } = data.results[0].geometry;
-
+        console.log("latitute",lat);
+        console.log("longtitute",lng);
         dispatch(
           setFilters({
             location: trimmedQuery,

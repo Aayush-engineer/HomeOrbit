@@ -71,7 +71,7 @@ const NewProperty = () => {
         title="Add New Property"
         subtitle="Create a new property listing with detailed information"
       />
-      <div className="bg-white rounded-xl p-6">
+      <div className="bg-white rounded-xl p-6 text-gray-900">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
