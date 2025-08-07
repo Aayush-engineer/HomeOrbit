@@ -49,7 +49,7 @@ const PropertyLocation = ({ propertyId }: PropertyDetailsProps) => {
           </span>
         </div>
         <a
-          href={`https://maps.google.com/?q=₹{encodeURIComponent(
+          href={`https://maps.google.com/?q=${encodeURIComponent(
             property.location?.address || ""
           )}`}
           target="_blank"

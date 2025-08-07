@@ -21,6 +21,7 @@ export const getProperties = async (
   res: Response
 ): Promise<void> => {
   try {
+    console.log("i am on the properties route");
     const {
       favoriteIds,
       priceMin,
@@ -35,6 +36,8 @@ export const getProperties = async (
       latitude,
       longitude,
     } = req.query;
+
+    console.log("property which i am searching req.body->",req.query);
 
     let whereConditions: Prisma.Sql[] = [];
 
@@ -146,6 +149,8 @@ export const getProperties = async (
 
     const properties = await prisma.$queryRaw(completeQuery);
 
+    console.log("property i am geting after search",properties);
+
     res.json(properties);
   } catch (error: any) {
     res
@@ -196,7 +201,10 @@ export const createProperty = async (
     res: Response
 ): Promise<void> => {
     try {
+
+        console.log("i am on the create propertyes");
         const files = req.files as Express.Multer.File[];
+        console.log("the files was",files,req.body);
 
         const {
             address,
@@ -207,6 +215,7 @@ export const createProperty = async (
             managerCognitoId,
             ...propertyData
         } = req.body;
+        console.log("property which i am creating my req.body ->", req.body);
 
         const photoUrls = await Promise.all(
             files.map((file) => new Promise<string>((resolve, reject) => {
@@ -226,29 +235,24 @@ export const createProperty = async (
             )
         );
 
-        const geocodingUrl = `https://nominatim.openstreetmap.org/search?${new URLSearchParams(
-            {
-                street: address,
-                city,
-                country,
-                postalcode: postalCode,
-                format: "json",
-                limit: "1",
-            }
-        ).toString()}`;
-        const geocodingResponse = await axios.get(geocodingUrl, {
-            headers: {
-                "User-Agent": "RealEstateApp (justsomedummyemail@gmail.com",
-            },
-        });
+        const query = `${address}, ${city}, ${postalCode}, ${country}`;
 
-        const [longitude, latitude] =
-            geocodingResponse.data[0]?.lon && geocodingResponse.data[0]?.lat
-                ? [
-                    parseFloat(geocodingResponse.data[0]?.lon),
-                    parseFloat(geocodingResponse.data[0]?.lat),
-                ]
-                : [0, 0];
+        const openCageUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${process.env.OPENCAGE_API_KEY}`;
+
+        const geocodingResponse = await axios.get(openCageUrl);
+        const geoData = geocodingResponse.data;
+
+        if (!geoData.results || !geoData.results.length) {
+            console.warn("Geocoding failed — no coordinates returned");
+            res.status(400).json({ message: "Unable to geocode the address" });
+            return;
+        }
+
+        const { lat, lng } = geoData.results[0].geometry;
+        const latitude = lat;
+        const longitude = lng;
+
+        console.log("property info which i am creating",address,city,state,country,postalCode,longitude,latitude);
         
         const [location] = await prisma.$queryRaw<Location[]>`
             INSERT INTO "Location" (address, city, state, country, "postalCode", coordinates)
@@ -284,8 +288,10 @@ export const createProperty = async (
                 manager: true,
             },
         });
+        console.log("my new property i am creating", newProperty);
         res.status(201).json(newProperty);
     } catch(err: any) {
+        console.error("CREATE PROPERTY ERROR:", err); 
         res.status(500).json({ message: `Error creating property: ${err.message}` });
     }
 };

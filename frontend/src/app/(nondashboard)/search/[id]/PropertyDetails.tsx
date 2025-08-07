@@ -96,7 +96,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                 Security Deposit
               </span>
               <span className="text-primary-700">
-                ₹{property.securityDeposit}
+                 ₹{property.securityDeposit}
               </span>
             </div>
             <hr />
