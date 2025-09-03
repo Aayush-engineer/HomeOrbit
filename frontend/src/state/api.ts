@@ -69,7 +69,7 @@ export const api = createApi({
               ? `/managers/${user.id}`
               : `/tenants/${user.id}`;
           
-          let userDetailsResponse =await fetchWithBQ(endpoint);
+          const userDetailsResponse =await fetchWithBQ(endpoint);
 
           
           
