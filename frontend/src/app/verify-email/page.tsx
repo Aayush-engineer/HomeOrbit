@@ -1,55 +1,51 @@
-"use client";
+'use client';
+
+import dynamic from 'next/dynamic';
 import { useClerk, useSignUp } from "@clerk/nextjs";
-import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function VerifyEmailPage() {
+const VerifyEmailPageComponent = () => {
   const { signUp, setActive, isLoaded } = useSignUp();
   const router = useRouter();
   const params = useSearchParams();
   const role = params.get("role") || "tenant";
-  const { signOut } = useClerk();
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const signUpId = params.get("studentId");
+
   const handleVerify = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!isLoaded || loading) return;
+    e.preventDefault();
+    if (!isLoaded || loading) return;
 
-  setLoading(true);
-  setError("");
+    setLoading(true);
+    setError("");
 
-  try {
-    
+    try {
+      if (!signUpId) {
+        setError("Signup session expired. Please sign up again.");
+        router.push("/signup");
+        return;
+      }
 
-    if (!signUpId) {
-      setError("Signup session expired. Please sign up again.");
-      router.push("/signup");
-      return;
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code: code.trim(),
+      });
+
+      if (completeSignUp.status !== "complete") {
+        throw new Error("Email verification incomplete.");
+      }
+
+      await setActive({ session: completeSignUp.createdSessionId });
+      router.push("/");
+    } catch (err: any) {
+      console.error("Verification Error:", err);
+      setError(err.errors?.[0]?.message || err.message || "Verification failed");
+    } finally {
+      setLoading(false);
     }
-
-    const completeSignUp = await signUp.attemptEmailAddressVerification({
-      code: code.trim(),
-    });
-    
-    if (completeSignUp.status !== "complete") {
-      throw new Error("Email verification incomplete.");
-    }
-    
-   
-    
-    await setActive({ session: completeSignUp.createdSessionId });
-    
-    router.push("/");
-  } catch (err: any) {
-    console.error("Verification Error:", err);
-    setError(err.errors?.[0]?.message || err.message || "Verification failed");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <form onSubmit={handleVerify} className="space-y-4 p-6 max-w-md mx-auto">
@@ -75,4 +71,6 @@ export default function VerifyEmailPage() {
       </button>
     </form>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(VerifyEmailPageComponent), { ssr: false });
