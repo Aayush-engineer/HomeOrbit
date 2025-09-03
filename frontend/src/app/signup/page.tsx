@@ -53,7 +53,12 @@ export default function CustomSignupPage() {
 
   const handleGoogleSignUp = () => {
     if (!isLoaded) return;
-    signUp.authenticateWithRedirect({ strategy: 'oauth_google' });
+
+    signUp.authenticateWithRedirect({
+      strategy: 'oauth_google',
+      redirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/sign-up`,
+      redirectUrlComplete: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
+    });
   };
 
   return (
