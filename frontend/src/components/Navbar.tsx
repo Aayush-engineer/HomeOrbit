@@ -58,13 +58,13 @@ const Navbar = () => {
             scroll={false}
           >
             <div className="flex items-center gap-3">
-              <Image
+              {/* <Image
                 src="/logo.svg"
                 alt="Rentiful Logo"
                 width={24}
                 height={24}
-                className="w-6 h-6"
-              />
+                className="w-16 h-16"
+              /> */}
               <div className="text-xl font-bold">
                 Home
                 <span className="text-secondary-500 font-light hover:!text-primary-300">
