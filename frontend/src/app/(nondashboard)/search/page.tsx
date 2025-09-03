@@ -35,9 +35,8 @@ const SearchPage = () => {
     );
 
     const cleanedFilters = cleanParams(initialFilters);
-    console.log("this is my clean filters",cleanedFilters);
     dispatch(setFilters(cleanedFilters));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); 
 
   return (
     <div

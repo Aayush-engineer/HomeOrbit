@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useAppSelector } from "@/state/redux";
 import { useGetPropertiesQuery } from "@/state/api";
-import { Property } from "@/types/prismaTypes";
 import L from "leaflet";
 
 // Fix Leaflet marker icon path issue
@@ -27,19 +26,30 @@ const Map = () => {
     isError,
   } = useGetPropertiesQuery(filters);
 
-  const coordinates = filters.coordinates || [-74.5, 40]; // Default fallback
-
+  const coordinates = filters.coordinates || [-74.5, 40]; 
+  function ChangeView({ coords }: { coords: [number, number] }) {
+      const map = useMap();
+      useEffect(() => {
+        if (coords) {
+          map.setView(coords, 13, { animate: true });
+        }
+      }, [coords, map]);
+      return null;
+  }
+  
   if (isLoading) return <>Loading...</>;
   if (isError || !properties) return <div>Failed to fetch properties</div>;
 
   return (
     <div className="basis-5/12 grow relative rounded-xl h-full">
       <MapContainer
-        center={[coordinates[1], coordinates[0]]}
+        center={[coordinates[0], coordinates[1]]}
         zoom={13}
         style={{ height: "100%", width: "100%" }}
         className="rounded-xl"
       >
+        <ChangeView coords={[coordinates[0], coordinates[1]]} />
+
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

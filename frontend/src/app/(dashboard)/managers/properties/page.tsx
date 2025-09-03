@@ -8,6 +8,7 @@ import React from "react";
 
 const Properties = () => {
   const { data: authUser } = useGetAuthUserQuery();
+  console.log("auth of user is ",authUser);
   const {
     data: managerProperties,
     isLoading,
@@ -15,6 +16,7 @@ const Properties = () => {
   } = useGetManagerPropertiesQuery(authUser?.clerkInfo?.id || "", {
     skip: !authUser?.clerkInfo?.id,
   });
+
 
   if (isLoading) return <Loading />;
   if (error) return <div>Error loading manager properties</div>;

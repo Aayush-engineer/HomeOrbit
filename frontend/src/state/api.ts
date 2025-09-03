@@ -59,7 +59,7 @@ export const api = createApi({
           if (!user || !user.id || !role) {
             return { error: { status: 401, data: "Unauthorized" } };
           }
-          console.log("my user,userid,role",user,user.id,role);
+          
           
 
           

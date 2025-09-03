@@ -11,6 +11,7 @@ import {
 import React from "react";
 
 const Favorites = () => {
+   console.log("i am also hited second");
   const { data: authUser } = useGetAuthUserQuery();
   const { data: tenant } = useGetTenantQuery(
     authUser?.clerkInfo?.id || "",
@@ -27,9 +28,10 @@ const Favorites = () => {
     { favoriteIds: tenant?.favorites?.map((fav: { id: number }) => fav.id) },
     { skip: !tenant?.favorites || tenant?.favorites.length === 0 }
   );
-
+ 
   if (isLoading) return <Loading />;
   if (error) return <div>Error loading favorites</div>;
+  
 
   return (
     <div className="dashboard-container">

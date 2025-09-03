@@ -11,6 +11,7 @@ const ClerkAuthInitializer = () => {
   const dispatch = useDispatch();
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth(); // ✅ here
+  console.log("i am also hit first");
 
   useEffect(() => {
     const syncClerk = async () => {

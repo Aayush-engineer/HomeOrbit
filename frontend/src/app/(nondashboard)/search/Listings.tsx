@@ -30,8 +30,6 @@ const Listings = () => {
     isError,
   } = useGetPropertiesQuery(filters);
 
-  console.log("properties i get from backend",properties);
-
   const handleFavoriteToggle = async (propertyId: number) => {
     if (!authUser) return;
 

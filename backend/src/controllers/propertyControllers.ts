@@ -1,12 +1,10 @@
 import { Request,Response } from "express";
 import { PrismaClient,Prisma } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
-
-
-
 import { v2 as cloudinary } from 'cloudinary';
 import { Location } from "@prisma/client";
 import axios from "axios";
+
 
 const prisma = new PrismaClient();
 
@@ -109,19 +107,19 @@ export const getProperties = async (
     }
 
     if (latitude && longitude) {
-      const lat = parseFloat(latitude as string);
-      const lng = parseFloat(longitude as string);
-      const radiusInKilometers = 1000;
-      const degrees = radiusInKilometers / 111; // Converts kilometers to degrees
+  const lat = parseFloat(latitude as string);
+  const lng = parseFloat(longitude as string);
+  const radiusInMeters = 20000; // 20 km radius
 
-      whereConditions.push(
-        Prisma.sql`ST_DWithin(
-          l.coordinates::geometry,
-          ST_SetSRID(ST_MakePoint(${lng}, ${lat}), 4326),
-          ${degrees}
-        )`
-      );
-    }
+  whereConditions.push(
+    Prisma.sql`ST_DWithin(
+      l.coordinates,
+      ST_SetSRID(ST_MakePoint(${lng}, ${lat}), 4326)::geography,
+      ${radiusInMeters}
+    )`
+  );
+}
+
 
     const completeQuery = Prisma.sql`
       SELECT 
@@ -146,6 +144,8 @@ export const getProperties = async (
           : Prisma.empty
       }
     `;
+
+    console.log("the complete query",completeQuery);
 
     const properties = await prisma.$queryRaw(completeQuery);
 
@@ -235,7 +235,9 @@ export const createProperty = async (
             )
         );
 
-        const query = `${address}, ${city}, ${postalCode}, ${country}`;
+        const query = `${city} ${postalCode} ${country}`;
+
+        console.log("the query i am giving",query);
 
         const openCageUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${process.env.OPENCAGE_API_KEY}`;
 
@@ -249,10 +251,11 @@ export const createProperty = async (
         }
 
         const { lat, lng } = geoData.results[0].geometry;
+        console.log("the location i get",lat,lng);
         const latitude = lat;
         const longitude = lng;
 
-        console.log("property info which i am creating",address,city,state,country,postalCode,longitude,latitude);
+        console.log("property info which i am creating",address,city,state,country,postalCode);
         
         const [location] = await prisma.$queryRaw<Location[]>`
             INSERT INTO "Location" (address, city, state, country, "postalCode", coordinates)

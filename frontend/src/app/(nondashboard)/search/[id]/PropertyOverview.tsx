@@ -24,7 +24,7 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
             {property.location?.city}
           </span>
         </div>
-        <h1 className="text-3xl font-bold my-5">{property.name}</h1>
+        <h1 className="text-3xl font-bold my-5 text-black">{property.name}</h1>
         <div className="flex justify-between items-center">
           <span className="flex items-center text-gray-500">
             <MapPin className="w-4 h-4 mr-1 text-gray-700" />
@@ -47,24 +47,24 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
         <div className="flex justify-between items-center gap-4 px-5">
           <div>
             <div className="text-sm text-gray-500">Monthly Rent</div>
-            <div className="font-semibold">
+            <div className="font-semibold text-gray-600">
               ₹{property.pricePerMonth.toLocaleString()}
             </div>
           </div>
           <div className="border-l border-gray-300 h-10"></div>
           <div>
             <div className="text-sm text-gray-500">Bedrooms</div>
-            <div className="font-semibold">{property.beds} bd</div>
+            <div className="font-semibold text-gray-600">{property.beds} bd</div>
           </div>
           <div className="border-l border-gray-300 h-10"></div>
           <div>
             <div className="text-sm text-gray-500">Bathrooms</div>
-            <div className="font-semibold">{property.baths} ba</div>
+            <div className="font-semibold text-gray-600">{property.baths} ba</div>
           </div>
           <div className="border-l border-gray-300 h-10"></div>
           <div>
             <div className="text-sm text-gray-500">Square Feet</div>
-            <div className="font-semibold">
+            <div className="font-semibold text-gray-600">
               {property.squareFeet.toLocaleString()} sq ft
             </div>
           </div>
@@ -73,7 +73,7 @@ const PropertyOverview = ({ propertyId }: PropertyOverviewProps) => {
 
       {/* Summary */}
       <div className="my-16">
-        <h2 className="text-xl font-semibold mb-5">About {property.name}</h2>
+        <h2 className="text-xl font-semibold mb-5 text-gray-950">About {property.name}</h2>
         <p className="text-gray-500 leading-7">
           {property.description}
           Experience resort style luxury living at Seacrest Homes, where the

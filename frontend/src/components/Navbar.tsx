@@ -28,14 +28,6 @@ const Navbar = () => {
 
   const { data: authUser, error, isLoading, isSuccess, isError } =
   useGetAuthUserQuery(clerkUser && clerkRole ? undefined : skipToken);
-
-  console.log("Auth User Data:", authUser);
-  console.log("Is Loading:", isLoading);
-  console.log("Is Success:", isSuccess);
-  console.log("Is Error:", isError);
-  console.log("Error:", error);
-  
-  console.log("data from api",authUser);
   const router = useRouter();
   const pathname = usePathname();
   const { signOut } = useClerk();

@@ -53,7 +53,7 @@ const Card = ({
         )}
       </div>
       <div className="p-4">
-        <h2 className="text-xl font-bold mb-1">
+        <h2 className="text-xl font-bold mb-1 text-black">
           {propertyLink ? (
             <Link
               href={propertyLink}
@@ -72,15 +72,15 @@ const Card = ({
         <div className="flex justify-between items-center">
           <div className="flex items-center mb-2">
             <Star className="w-4 h-4 text-yellow-400 mr-1" />
-            <span className="font-semibold">
+            <span className="font-semibold text-gray-800">
               {property.averageRating.toFixed(1)}
             </span>
             <span className="text-gray-600 ml-1">
               ({property.numberOfReviews} Reviews)
             </span>
           </div>
-          <p className="text-lg font-bold mb-3">
-            ${property.pricePerMonth.toFixed(0)}{" "}
+          <p className="text-lg font-bold mb-3 text-blue-800">
+            ₹{property.pricePerMonth.toFixed(0)}{" "}
             <span className="text-gray-600 text-base font-normal"> /month</span>
           </p>
         </div>

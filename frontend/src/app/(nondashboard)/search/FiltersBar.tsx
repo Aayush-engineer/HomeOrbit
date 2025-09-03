@@ -75,27 +75,25 @@ const FiltersBar = () => {
   const handleLocationSearch = async () => {
     try {
       const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          searchInput
-        )}.json?access_token=${
-          process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
-        }&fuzzyMatch=true`
-      );
-      const data = await response.json();
-      if (data.features && data.features.length > 0) {
-        const [lng, lat] = data.features[0].center;
-        dispatch(
-          setFilters({
-            location: searchInput,
-            coordinates: [lng, lat],
-          })
+          `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+            searchInput
+          )}&key=${process.env.NEXT_PUBLIC_OPENCAGE_API_KEY}`
         );
+      const data = await response.json();
+      if (data.results && data.results.length > 0) {
+          const { lat, lng } = data.results[0].geometry;
+          dispatch(
+            setFilters({
+              location: searchInput,
+              coordinates: [lat, lng],
+            })
+          );
       }
     } catch (err) {
       console.error("Error search location:", err);
     }
   };
-
+  
   return (
     <div className="flex justify-between items-center w-full py-5">
       {/* Filters */}
@@ -139,16 +137,16 @@ const FiltersBar = () => {
               handleFilterChange("priceRange", value, true)
             }
           >
-            <SelectTrigger className="w-22 rounded-xl border-primary-400">
+            <SelectTrigger className="w-22 rounded-xl border-primary-400 ">
               <SelectValue>
                 {formatPriceValue(filters.priceRange[0], true)}
               </SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white text-black">
               <SelectItem value="any">Any Min Price</SelectItem>
               {[500, 1000, 1500, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
-                  ${price / 1000}k+
+                  ₹{price / 1000}k+
                 </SelectItem>
               ))}
             </SelectContent>
@@ -166,7 +164,7 @@ const FiltersBar = () => {
                 {formatPriceValue(filters.priceRange[1], false)}
               </SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white text-black">
               <SelectItem value="any">Any Max Price</SelectItem>
               {[1000, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
@@ -187,7 +185,7 @@ const FiltersBar = () => {
             <SelectTrigger className="w-26 rounded-xl border-primary-400">
               <SelectValue placeholder="Beds" />
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white text-black">
               <SelectItem value="any">Any Beds</SelectItem>
               <SelectItem value="1">1+ bed</SelectItem>
               <SelectItem value="2">2+ beds</SelectItem>
@@ -204,7 +202,7 @@ const FiltersBar = () => {
             <SelectTrigger className="w-26 rounded-xl border-primary-400">
               <SelectValue placeholder="Baths" />
             </SelectTrigger>
-            <SelectContent className="bg-white">
+            <SelectContent className="bg-white text-black">
               <SelectItem value="any">Any Baths</SelectItem>
               <SelectItem value="1">1+ bath</SelectItem>
               <SelectItem value="2">2+ baths</SelectItem>
@@ -223,7 +221,7 @@ const FiltersBar = () => {
           <SelectTrigger className="w-32 rounded-xl border-primary-400">
             <SelectValue placeholder="Home Type" />
           </SelectTrigger>
-          <SelectContent className="bg-white">
+          <SelectContent className="bg-white text-black">
             <SelectItem value="any">Any Property Type</SelectItem>
             {Object.entries(PropertyTypeIcons).map(([type, Icon]) => (
               <SelectItem key={type} value={type}>

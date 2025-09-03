@@ -21,7 +21,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
     <div className="mb-6">
       {/* Amenities */}
       <div>
-        <h2 className="text-xl font-semibold my-3">Property Amenities</h2>
+        <h2 className="text-xl font-semibold my-3 text-gray-600">Property Amenities</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {property.amenities.map((amenity: AmenityEnum) => {
             const Icon = AmenityIcons[amenity as AmenityEnum] || HelpCircle;
@@ -41,8 +41,8 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
       </div>
 
       {/* Highlights */}
-      <div className="mt-12 mb-16">
-        <h3 className="text-xl font-semibold text-primary-800 dark:text-primary-100">
+      <div className="mt-12 mb-16 text-gray-700">
+        <h3 className="text-xl font-semibold ">
           Highlights
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-4 w-full">
@@ -54,8 +54,8 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
                 key={highlight}
                 className="flex flex-col items-center border rounded-xl py-8 px-4"
               >
-                <Icon className="w-8 h-8 mb-2 text-primary-600 dark:text-primary-300" />
-                <span className="text-sm text-center text-primary-600 dark:text-primary-300">
+                <Icon className="w-8 h-8 mb-2 text-gray-700" />
+                <span className="text-sm text-center text-gray-700">
                   {formatEnumString(highlight)}
                 </span>
               </div>
@@ -66,10 +66,10 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
 
       {/* Tabs Section */}
       <div>
-        <h3 className="text-xl font-semibold text-primary-800 dark:text-primary-100 mb-5">
+        <h3 className="text-xl font-semibold text-gray-800 mb-5">
           Fees and Policies
         </h3>
-        <p className="text-sm text-primary-600 dark:text-primary-300 mt-2">
+        <p className="text-sm text-gray-700 mt-2">
           The fees below are based on community-supplied data and may exclude
           additional fees and utilities.
         </p>
@@ -80,7 +80,7 @@ const PropertyDetails = ({ propertyId }: PropertyDetailsProps) => {
             <TabsTrigger value="parking">Parking</TabsTrigger>
           </TabsList>
           <TabsContent value="required-fees" className="w-1/3">
-            <p className="font-semibold mt-5 mb-2">One time move in fees</p>
+            <p className="font-semibold mt-5 mb-2 text-gray-700">One time move in fees</p>
             <hr />
             <div className="flex justify-between py-2 bg-secondary-50">
               <span className="text-primary-700 font-medium">

@@ -1,7 +1,7 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 
 *,
@@ -248,4 +248,19 @@ body,
 /* Sonner Toast Styles */
 [data-close-button="true"] {
   @apply bg-background border-border text-foreground hover:bg-muted;
+}
+
+
+/* Lower Leaflet map tile z-index */
+.leaflet-container {
+  z-index: 0;
+}
+
+.leaflet-pane,
+.leaflet-tile-pane,
+.leaflet-overlay-pane,
+.leaflet-shadow-pane,
+.leaflet-marker-pane,
+.leaflet-popup-pane {
+  z-index: 0 !important;
 }
